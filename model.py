@@ -132,3 +132,15 @@ def attention_context(attn_weights, v):
     out = attn_weights @ v
     return out
 
+# Step 14 - split_heads
+import numpy as np
+
+def split_heads(x, num_heads):
+    """Reshape (B, T, d_model) into (B, num_heads, T, head_dim)."""
+    # TODO: split the last axis into (num_heads, head_dim) and move heads in front of T
+    B, T, d_model = x.shape
+    head_dim = d_model // num_heads
+    x = x.reshape(B, T,num_heads, head_dim)   # step 1: split last axis only
+    x = np.transpose(x, (0, 2, 1, 3))          # step 2: swap T and num_heads
+    return x
+
