@@ -144,3 +144,13 @@ def split_heads(x, num_heads):
     x = np.transpose(x, (0, 2, 1, 3))          # step 2: swap T and num_heads
     return x
 
+# Step 15 - merge_heads
+import numpy as np
+
+def merge_heads(x):
+    # TODO: merge (B, num_heads, T, head_dim) back into (B, T, num_heads * head_dim)
+    B, num_heads, T, head_dim = x.shape
+    x = np.transpose(x,(0,2,1,3))
+    x= x.reshape(B,T,head_dim*num_heads)
+    return x
+
