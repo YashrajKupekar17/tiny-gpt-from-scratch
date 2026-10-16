@@ -78,8 +78,8 @@ import numpy as np
 
 def linear_projection(x, weight, bias):
     # TODO: apply a generic dense linear projection x @ weight + bias (bias may be None)
-    x = x @ weight
-    if(bias is not None) :
-        x+=bias
-    return x
+    out = x @ weight
+    if bias is not None :
+        out = out + bias
+    return out
 
