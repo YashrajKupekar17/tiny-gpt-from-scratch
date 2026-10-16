@@ -246,3 +246,11 @@ def layer_norm(x, gamma, beta, eps=1e-5):
     out = gamma*out + beta
     return out
 
+# Step 26 - pre_norm_residual_sublayer
+import numpy as np
+
+def pre_norm_residual_sublayer(x, gamma, beta, sublayer_fn):
+    # TODO: apply pre-norm residual pattern: x + sublayer_fn(layer_norm(x))
+    x = x + sublayer_fn(layer_norm(x,gamma,beta))
+    return x
+
