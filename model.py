@@ -238,3 +238,11 @@ def layernorm_stats(x, eps=1e-5):
     var = np.var(x, axis=-1, keepdims=True)
     return mean, var
 
+# Step 25 - layer_norm
+def layer_norm(x, gamma, beta, eps=1e-5):
+    # TODO: normalize x along the last axis using layernorm_stats then scale and shift with gamma and beta
+    mean , var = layernorm_stats(x)
+    out = (x - mean)/(np.sqrt(var+eps))
+    out = gamma*out + beta
+    return out
+
