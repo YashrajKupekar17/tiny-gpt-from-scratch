@@ -45,3 +45,13 @@ def decode_ids(ids, id_to_char):
     return s
     pass
 
+# Step 5 - make_batches
+import numpy as np
+
+def make_batches(data, batch_size, block_size, rng):
+    # TODO: sample batch_size random windows of length block_size from data and return (x, y) where y is x shifted by one.
+    idxs = rng.integers(0, len(data) - block_size, size=batch_size)
+    x = np.array([data[i:i+block_size] for i in idxs],dtype=np.int64)
+    y = np.array([data[i+1:i+block_size+1] for i in idxs],dtype=np.int64) 
+    return (x,y)
+

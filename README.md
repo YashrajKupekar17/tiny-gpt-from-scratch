@@ -14,6 +14,7 @@ python scaffold.py
 - [x] **2.** build_id_to_char
 - [x] **3.** encode_text
 - [x] **4.** decode_ids
+- [x] **5.** make_batches
 
 ---
 
