@@ -11,6 +11,7 @@ python scaffold.py
 ## Steps
 
 - [x] **1.** build_char_vocab
+- [x] **2.** build_id_to_char
 
 ---
 
