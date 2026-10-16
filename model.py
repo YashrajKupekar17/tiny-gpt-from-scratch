@@ -222,3 +222,12 @@ def ffn_second_layer(h, w2, b2):
     out = linear_projection(h,w2,b2)
     return out
 
+# Step 23 - position_wise_feed_forward
+import numpy as np
+
+def position_wise_feed_forward(x, params):
+    # TODO: assemble the two-layer position-wise feed-forward network using params
+    out = ffn_first_layer(x,params['w1'],params['b1'])
+    out = ffn_second_layer(out,params['w2'],params['b2'])
+    return out
+
