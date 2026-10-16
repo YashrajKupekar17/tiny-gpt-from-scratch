@@ -73,3 +73,13 @@ def add_positional_embeddings(token_embeds, pos_embedding_table):
     embedding = token_embeds+pos
     return embedding
 
+# Step 8 - linear_projection
+import numpy as np
+
+def linear_projection(x, weight, bias):
+    # TODO: apply a generic dense linear projection x @ weight + bias (bias may be None)
+    x = x @ weight
+    if(bias is not None) :
+        x+=bias
+    return x
+
