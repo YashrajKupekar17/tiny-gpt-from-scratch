@@ -36,3 +36,12 @@ def encode_text(text, char_to_id):
     return enc
     pass
 
+# Step 4 - decode_ids
+def decode_ids(ids, id_to_char):
+    # TODO: convert a sequence of integer token ids back into the original string
+    s=''
+    for i in ids:
+        s+=id_to_char[i]
+    return s
+    pass
+
