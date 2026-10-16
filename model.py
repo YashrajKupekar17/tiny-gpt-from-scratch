@@ -83,3 +83,13 @@ def linear_projection(x, weight, bias):
         out = out + bias
     return out
 
+# Step 9 - compute_attention_scores
+def compute_attention_scores(q, k):
+    # TODO: return raw attention scores Q @ K^T over the last two dims, shape (..., T, T)
+    # k --> (B,T,head_dim)
+    # q --> (B,T,head_dim)
+    k_trans = np.swapaxes(k, -2, -1)
+    # k_trans --> (B,head_dim,T)
+    scores = q @ k_trans
+    return scores
+
