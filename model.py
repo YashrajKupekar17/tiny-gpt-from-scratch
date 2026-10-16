@@ -179,3 +179,12 @@ def multi_head_scaled_dot_product_attention(q, k, v, num_heads):
     out = attention_context(scores,split_v)
     return out
 
+# Step 18 - merge_and_output_project
+import numpy as np
+
+def merge_and_output_project(head_context, w_o, b_o):
+    # TODO: merge the per-head context tensors and apply the output linear projection.
+    context = merge_heads(head_context)
+    out = linear_projection(context,w_o,b_o)
+    return out
+
