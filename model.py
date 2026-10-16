@@ -196,3 +196,12 @@ def masked_multi_head_self_attention(x, params, num_heads):
     merged = merge_and_output_project(context,params['w_o'],params['b_o'])
     return merged
 
+# Step 20 - gelu_activation
+import numpy as np
+
+def gelu_activation(x):
+    """Apply tanh-approximate GELU elementwise. Return array of same shape."""
+    # TODO: apply the tanh-approximate GELU activation function elementwise
+    out = 0.5*x*(1+np.tanh((2/np.pi)**(1/2)*(x+(0.044715*(x**3)))))
+    return out
+
