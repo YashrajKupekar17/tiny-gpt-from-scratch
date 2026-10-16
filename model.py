@@ -231,3 +231,10 @@ def position_wise_feed_forward(x, params):
     out = ffn_second_layer(out,params['w2'],params['b2'])
     return out
 
+# Step 24 - layernorm_stats
+def layernorm_stats(x, eps=1e-5):
+    # TODO: compute per-token mean and variance along the last axis of x
+    mean = np.mean(x, axis=-1, keepdims=True)
+    var = np.var(x, axis=-1, keepdims=True)
+    return mean, var
+
