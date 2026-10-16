@@ -188,3 +188,11 @@ def merge_and_output_project(head_context, w_o, b_o):
     out = linear_projection(context,w_o,b_o)
     return out
 
+# Step 19 - masked_multi_head_self_attention
+def masked_multi_head_self_attention(x, params, num_heads):
+    # TODO: assemble QKV projection, multi-head causal attention, and output projection.
+    q,k,v = project_qkv(x,params['w_q'],params['b_q'],params['w_k'],params['b_k'],params['w_v'],params['b_v'])
+    context = multi_head_scaled_dot_product_attention(q,k,v,num_heads)
+    merged = merge_and_output_project(context,params['w_o'],params['b_o'])
+    return merged
+
