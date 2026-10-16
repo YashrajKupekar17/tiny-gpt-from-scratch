@@ -214,3 +214,11 @@ def ffn_first_layer(x, w1, b1):
     out = gelu_activation(out)
     return out
 
+# Step 22 - ffn_second_layer
+import numpy as np
+
+def ffn_second_layer(h, w2, b2):
+    # TODO: project hidden activations back to the model dimension via a linear map
+    out = linear_projection(h,w2,b2)
+    return out
+
