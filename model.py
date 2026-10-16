@@ -162,3 +162,20 @@ def project_qkv(x, w_q, b_q, w_k, b_k, w_v, b_v):
     v = linear_projection(x,w_v,b_v)
     return (q,k,v)
 
+# Step 17 - multi_head_scaled_dot_product_attention
+import numpy as np
+
+def multi_head_scaled_dot_product_attention(q, k, v, num_heads):
+    """Run masked scaled dot-product attention in parallel across num_heads.
+
+    q, k, v: arrays of shape (B, T, d_model).
+    Returns: per-head context of shape (B, num_heads, T, head_dim).
+    """
+    # TODO: split heads, compute scaled masked softmax attention, return context
+    B,T,d_model = q.shape
+    split_q ,split_k,split_v = split_heads(q,num_heads),split_heads(k,num_heads),split_heads(v,num_heads)
+    attention_scores = scale_attention_scores(compute_attention_scores(split_q,split_k),d_model//num_heads)
+    scores = softmax_attention_weights(apply_causal_mask(attention_scores))
+    out = attention_context(scores,split_v)
+    return out
+
