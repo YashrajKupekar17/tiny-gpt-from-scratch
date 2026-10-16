@@ -55,3 +55,9 @@ def make_batches(data, batch_size, block_size, rng):
     y = np.array([data[i+1:i+block_size+1] for i in idxs],dtype=np.int64) 
     return (x,y)
 
+# Step 6 - token_embedding_lookup
+def token_embedding_lookup(token_ids, embedding_table):
+    # TODO: return embedding vectors for each token id, output shape (B, T, d_model)
+    embeddings = embedding_table[token_ids]
+    return embeddings
+
