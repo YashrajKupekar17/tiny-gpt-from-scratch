@@ -122,3 +122,13 @@ def softmax_attention_weights(masked_scores):
     out = (exp_scores*(exp_sum**-1))
     return out
 
+# Step 13 - attention_context
+import numpy as np
+
+def attention_context(attn_weights, v):
+    # TODO: multiply attention weights by the value tensor to produce per-token context vectors
+    # attn_weights --> (B, T,T)
+    # v --> (B,T,head_dim)
+    out = attn_weights @ v
+    return out
+
