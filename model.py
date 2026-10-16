@@ -27,3 +27,12 @@ def build_id_to_char(char_to_id):
     return id_to_char
     pass
 
+# Step 3 - encode_text
+import numpy as np
+
+def encode_text(text, char_to_id):
+    # TODO: convert the string into a 1D int64 numpy array of token ids using char_to_id
+    enc = np.array([char_to_id[i] for i in text],dtype=np.int64)
+    return enc
+    pass
+
