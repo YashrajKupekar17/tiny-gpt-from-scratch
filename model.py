@@ -93,3 +93,11 @@ def compute_attention_scores(q, k):
     scores = q @ k_trans
     return scores
 
+# Step 10 - scale_attention_scores
+import numpy as np
+
+def scale_attention_scores(scores, head_dim):
+    # TODO: rescale raw attention scores by 1/sqrt(head_dim) for stable softmax
+    out = scores*((head_dim**(1/2))**-1)
+    return out
+
