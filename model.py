@@ -101,3 +101,13 @@ def scale_attention_scores(scores, head_dim):
     out = scores*((head_dim**(1/2))**-1)
     return out
 
+# Step 11 - apply_causal_mask
+import numpy as np
+
+def apply_causal_mask(scores):
+    # TODO: build an upper-triangular causal mask and fill future positions in scores with -inf
+    T = scores.shape[-1]
+    tril = np.tril(np.ones((T,T)))
+    scores = np.where(tril==0,-np.inf,scores)
+    return scores
+
