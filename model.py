@@ -205,3 +205,12 @@ def gelu_activation(x):
     out = 0.5*x*(1+np.tanh((2/np.pi)**(1/2)*(x+(0.044715*(x**3)))))
     return out
 
+# Step 21 - ffn_first_layer
+import numpy as np
+
+def ffn_first_layer(x, w1, b1):
+    # TODO: project x up to d_ff with (w1, b1) and apply the nonlinearity
+    out = linear_projection(x,w1,b1)
+    out = gelu_activation(out)
+    return out
+
