@@ -293,6 +293,7 @@ def gpt_forward(token_ids, params, num_heads):
         pos_table = params['pos_embedding']
     else:
         pos_table = params['positional_embedding']
+    x = add_positional_embeddings(x, pos_table)
     # 3. run through every transformer block, one after another
     for block_params in params['blocks']:
         x = transformer_block(x, block_params, num_heads)
