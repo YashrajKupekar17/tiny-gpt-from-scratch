@@ -442,3 +442,11 @@ def top_k_filter_logits(logits, k):
     kth_largest = np.sort(logits, axis=-1)[:, -k][:, None]   # (batch, 1)
     return np.where(logits < kth_largest, -np.inf, logits)
 
+# Step 40 - sample_next_token
+def sample_next_token(filtered_logits, rng):
+    # TODO: softmax filtered_logits along the last axis and sample one token id per row using rng
+    probs = softmax_attention_weights(filtered_logits)      # (batch, vocab)
+    vocab = probs.shape[-1]
+    ids = [rng.choice(vocab, p=row) for row in probs]
+    return np.array(ids, dtype=np.int64)
+
