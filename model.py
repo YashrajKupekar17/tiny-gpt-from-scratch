@@ -289,7 +289,10 @@ def gpt_forward(token_ids, params, num_heads):
     # 1. look up each token's vector:  (B, T) → (B, T, C)
     x = params['token_embedding'][token_ids]
     # 2. add position information:     (B, T, C)
-    x = add_positional_embeddings(x, params['pos_embedding'])
+    if 'pos_embedding' in params:
+        pos_table = params['pos_embedding']
+    else:
+        pos_table = params['positional_embedding']
     # 3. run through every transformer block, one after another
     for block_params in params['blocks']:
         x = transformer_block(x, block_params, num_heads)
@@ -367,4 +370,36 @@ def collect_parameters(params):
 
     walk(params)
     return out
+
+# Step 34 - training_step
+def training_step(params, input_ids, target_ids):
+    """Compute loss and a gradient dict mirroring params using finite differences."""
+    # TODO: call gpt_forward + cross_entropy to get the loss, then estimate gradients per scalar parameter
+    num_heads = params['num_heads']
+    eps = 1e-5
+
+    def get_loss():
+        logits = gpt_forward(input_ids, params, num_heads)
+        return cross_entropy_language_modeling_loss(logits, target_ids)
+
+    def grad_of(arr):
+        g = np.zeros_like(arr)
+        for i in range(arr.size):
+            old = arr.flat[i]
+            arr.flat[i] = old + eps
+            up = get_loss()
+            arr.flat[i] = old - eps
+            down = get_loss()
+            arr.flat[i] = old
+            g.flat[i] = (up - down) / (2 * eps)
+        return g
+
+    def make_grads(obj):
+        if isinstance(obj, dict):
+            return {k: make_grads(v) for k, v in obj.items() if not isinstance(v, int)}
+        if isinstance(obj, list):
+            return [make_grads(v) for v in obj]
+        return grad_of(obj)
+
+    return get_loss(), make_grads(params)
 
