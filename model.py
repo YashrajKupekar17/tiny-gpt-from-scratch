@@ -450,3 +450,24 @@ def sample_next_token(filtered_logits, rng):
     ids = [rng.choice(vocab, p=row) for row in probs]
     return np.array(ids, dtype=np.int64)
 
+# Step 41 - generate_text
+def generate_text(params, prompt, num_new_tokens, max_seq_len, vocab, id_to_char, temperature=1.0, top_k=None, seed=0):
+    # TODO: encode prompt, autoregressively sample num_new_tokens ids using gpt_forward + sampling utilities, decode and return.
+    rng = np.random.default_rng(seed)
+    num_heads = params['num_heads']
+
+    # prompt → ids, shape (1, T): one sequence in the batch
+    idx = encode_text(prompt, vocab)[None, :]
+
+    for _ in range(num_new_tokens):
+        idx_cond = idx[:, -max_seq_len:]                      # crop to the context window
+        logits = gpt_forward(idx_cond, params, num_heads)      # (1, T, vocab)
+        logits = last_position_logits(logits)                  # (1, vocab)
+        logits = scale_logits_by_temperature(logits, temperature)
+        if top_k is not None:
+            logits = top_k_filter_logits(logits, top_k)
+        next_id = sample_next_token(logits, rng)               # (1,)
+        idx = np.concatenate([idx, next_id[:, None]], axis=1)  # append → (1, T+1)
+
+    return decode_ids(idx[0].tolist(), id_to_char)
+
