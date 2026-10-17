@@ -422,3 +422,8 @@ def run_training_loop(params, batches, num_steps, learning_rate):
         losses.append(loss)
     return losses
 
+# Step 37 - last_position_logits
+def last_position_logits(logits):
+    # TODO: return the logits at the final time step, shape (batch, vocab)
+    return logits[:, -1, :]
+
