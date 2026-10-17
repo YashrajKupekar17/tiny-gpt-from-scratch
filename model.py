@@ -433,3 +433,12 @@ def scale_logits_by_temperature(logits, temperature):
     assert temperature > 0, "temperature must be positive"
     return logits / temperature
 
+# Step 39 - top_k_filter_logits
+def top_k_filter_logits(logits, k):
+    # TODO: keep only the top-k logits per row, set the rest to -inf
+    vocab = logits.shape[-1]
+    if k >= vocab:
+        return logits
+    kth_largest = np.sort(logits, axis=-1)[:, -k][:, None]   # (batch, 1)
+    return np.where(logits < kth_largest, -np.inf, logits)
+
