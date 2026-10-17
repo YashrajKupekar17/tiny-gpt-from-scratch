@@ -283,3 +283,19 @@ def project_to_vocab_logits(hidden_states, w_out, b_out):
     out = linear_projection(hidden_states,w_out,b_out)
     return out
 
+# Step 30 - gpt_forward
+def gpt_forward(token_ids, params, num_heads):
+    # TODO: Run the full GPT forward pass to produce next-token logits of shape (B, T, vocab_size).
+    # 1. look up each token's vector:  (B, T) → (B, T, C)
+    x = params['token_embedding'][token_ids]
+    # 2. add position information:     (B, T, C)
+    x = add_positional_embeddings(x, params['pos_embedding'])
+    # 3. run through every transformer block, one after another
+    for block_params in params['blocks']:
+        x = transformer_block(x, block_params, num_heads)
+    # 4. final layer norm:             (B, T, C)
+    x = layer_norm(x, params['ln_f_gamma'], params['ln_f_beta'])
+    # 5. output head:                  (B, T, C) → (B, T, vocab_size)
+    logits = linear_projection(x, params['w_out'], params['b_out'])
+    return logits
+
