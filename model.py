@@ -427,3 +427,9 @@ def last_position_logits(logits):
     # TODO: return the logits at the final time step, shape (batch, vocab)
     return logits[:, -1, :]
 
+# Step 38 - scale_logits_by_temperature
+def scale_logits_by_temperature(logits, temperature):
+    # TODO: divide next-token logits by temperature to sharpen or soften the distribution
+    assert temperature > 0, "temperature must be positive"
+    return logits / temperature
+
