@@ -311,3 +311,42 @@ def cross_entropy_language_modeling_loss(logits, targets):
     correct = np.take_along_axis(log_probs, targets[..., None], axis=-1)
     return float(-np.mean(correct))
 
+# Step 32 - init_gpt_parameters
+def init_gpt_parameters(vocab_size, max_seq_len, d_model, num_heads, d_ff, num_layers, seed=0):
+    assert d_model % num_heads == 0, "d_model must be divisible by num_heads"
+    rng = np.random.default_rng(seed)
+
+    def normal(shape):
+        return rng.normal(0.0, 0.02, size=shape)
+
+    params = {
+        'token_embedding': normal((vocab_size, d_model)),
+        'positional_embedding': normal((max_seq_len, d_model)),
+        'blocks': [],
+    }
+
+    for _ in range(num_layers):
+        attn = {
+            'w_q': normal((d_model, d_model)), 'b_q': np.zeros(d_model),
+            'w_k': normal((d_model, d_model)), 'b_k': np.zeros(d_model),
+            'w_v': normal((d_model, d_model)), 'b_v': np.zeros(d_model),
+            'w_o': normal((d_model, d_model)), 'b_o': np.zeros(d_model),
+        }
+        ffn = {
+            'w1': normal((d_model, d_ff)), 'b1': np.zeros(d_ff),
+            'w2': normal((d_ff, d_model)), 'b2': np.zeros(d_model),
+        }
+        block = {
+            'ln1_gamma': np.ones(d_model), 'ln1_beta': np.zeros(d_model),
+            'attn': attn,
+            'ln2_gamma': np.ones(d_model), 'ln2_beta': np.zeros(d_model),
+            'ffn': ffn,
+        }
+        params['blocks'].append(block)
+
+    params['ln_f_gamma'] = np.ones(d_model)
+    params['ln_f_beta'] = np.zeros(d_model)
+    params['w_out'] = normal((d_model, vocab_size))
+    params['b_out'] = np.zeros(vocab_size)
+    return params
+
