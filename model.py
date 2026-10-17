@@ -404,3 +404,10 @@ def training_step(params, input_ids, target_ids):
 
     return get_loss(), make_grads(params)
 
+# Step 35 - apply_optimizer_update
+def apply_optimizer_update(params, grads, learning_rate):
+    # TODO: recursively update each leaf array as param -= learning_rate * grad
+    for p, g in zip(collect_parameters(params), collect_parameters(grads)):
+        p -= learning_rate * g
+    return params
+
