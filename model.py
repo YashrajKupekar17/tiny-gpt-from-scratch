@@ -299,3 +299,15 @@ def gpt_forward(token_ids, params, num_heads):
     logits = linear_projection(x, params['w_out'], params['b_out'])
     return logits
 
+# Step 31 - cross_entropy_language_modeling_loss
+def cross_entropy_language_modeling_loss(logits, targets):
+    # TODO: compute the mean cross-entropy loss over all (batch, seq) positions.
+
+    maxes = np.max(logits, axis=-1, keepdims=True)
+    shifted = logits - maxes
+    log_sum_exp = np.log(np.sum(np.exp(shifted), axis=-1, keepdims=True))
+    log_probs = shifted - log_sum_exp
+
+    correct = np.take_along_axis(log_probs, targets[..., None], axis=-1)
+    return float(-np.mean(correct))
+
