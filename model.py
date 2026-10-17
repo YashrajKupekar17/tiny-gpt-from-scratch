@@ -350,3 +350,21 @@ def init_gpt_parameters(vocab_size, max_seq_len, d_model, num_heads, d_ff, num_l
     params['b_out'] = np.zeros(vocab_size)
     return params
 
+# Step 33 - collect_parameters
+def collect_parameters(params):
+    # TODO: Flatten the nested params dict into a single ordered list of numpy arrays.
+    out = []
+
+    def walk(obj):
+        if isinstance(obj, np.ndarray):
+            out.append(obj)              
+        elif isinstance(obj, dict):
+            for value in obj.values():   
+                walk(value)
+        elif isinstance(obj, list):
+            for item in obj:
+                walk(item)
+
+    walk(params)
+    return out
+
