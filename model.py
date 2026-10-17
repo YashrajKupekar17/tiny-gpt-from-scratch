@@ -275,3 +275,11 @@ def gpt_backbone(x, blocks_params, num_heads):
     
     return x
 
+# Step 29 - project_to_vocab_logits
+import numpy as np
+
+def project_to_vocab_logits(hidden_states, w_out, b_out):
+    # TODO: project (B, T, d_model) hidden states to (B, T, vocab_size) logits
+    out = linear_projection(hidden_states,w_out,b_out)
+    return out
+
